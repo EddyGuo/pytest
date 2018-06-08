@@ -1,21 +1,18 @@
 import webbrowser
 import sys
 import pyperclip
+import search_func as sf
 
-search_address = 'https://www.baidu.com/baidu?wd='
+
+searchers = ['google', 'bing', 'baidu']
 if len(sys.argv) > 1:
-    # 将得到的参数连接成一个字符串，空格为间隔
-    for val in sys.argv:
-        if val == '--google':
-            search_address = 'https://www.google.com/search?q='
-        if val == '--baidu':
-            search_address = 'https://www.baidu.com/baidu?wd='
+    # 选择搜索引擎
+    search_address = sf.address_searcher(sys.argv)
 
     # 从参数中删除搜索引擎
-    sys.argv = list(filter(lambda x: x != '--google', sys.argv))
-    print('argv = ', sys.argv)
-    sys.argv = list(filter(lambda y: y != '--baidu', sys.argv))
-    print('argv = ', sys.argv)
+    sys.argv = sf.del_searcher(searchers, sys.argv)
+
+    # 将得到的参数连接成一个字符串，空格为间隔
     question = ' '.join(sys.argv[1:])
 else:
     # 读取剪切板
